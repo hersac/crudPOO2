@@ -22,3 +22,16 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Ignora los archivos de configuración específicos de NetBeans
+nbactions.xml
+nb-configuration.xml
+
+# Ignora los archivos de copia de seguridad y archivos de configuración de usuario
+*~
+*.bak
+*.swp
+.idea/
+
+# Ignora los archivos de dependencias de Maven
+target/
