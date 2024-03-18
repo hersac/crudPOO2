@@ -1,4 +1,3 @@
-
 package com.hersac.fastfoot.models;
 
 import lombok.AllArgsConstructor;

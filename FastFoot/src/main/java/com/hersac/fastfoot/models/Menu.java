@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Menu {
     private Long menuId;
     private String nombre;
-    private String precio;
+    private Double precio;
     private String imagen;
     private Boolean disponible;
 }

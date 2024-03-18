@@ -20,4 +20,15 @@ public class ClientesService {
         return this.clientesRepo.save(cliente);
     }
     
+    public Clientes updateCliente(Long id, Clientes cliente){
+        return this.clientesRepo.update(id, cliente);
+    }
+    
+    public void deleteClienteById(Long id){
+        this.clientesRepo.deleteById(id);
+    }
+    
+    public Clientes findClientesByIdentificacion(String identificacion){
+        return this.clientesRepo.findByNumeroDocumento(identificacion);
+    }
 }
