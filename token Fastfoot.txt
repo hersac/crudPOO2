@@ -1,0 +1,3 @@
+token de fastfoot git:
+
+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
