@@ -15,11 +15,11 @@ public class PedidoRepositorio extends Repositorio<Pedido, Long> {
 
         Clientes cliente = cargarClienteDesdeResultSet(resultSet);
         pedido.setCliente(cliente);
-
-        Menu menu = cargarMenuDesdeResultSet(resultSet);
-        pedido.setMenu(menu);
         
-        pedido.setCantidad(resultSet.getInt("cantidad"));
+        pedido.setCantidadMenu1(resultSet.getInt("cantidadmenu1"));
+        pedido.setCantidadMenu2(resultSet.getInt("cantidadmenu2"));
+        pedido.setCantidadMenu3(resultSet.getInt("cantidadmenu3"));
+        pedido.setCantidadMenu4(resultSet.getInt("cantidadmenu4"));
         pedido.setEstado(resultSet.getBoolean("estado"));
         return pedido;
     }
@@ -30,15 +30,5 @@ public class PedidoRepositorio extends Repositorio<Pedido, Long> {
         cliente.setNombre(resultSet.getString("nombre"));
         cliente.setNumeroDocumento(resultSet.getString("numerodocumento"));
         return cliente;
-    }
-    
-    private Menu cargarMenuDesdeResultSet(ResultSet resultSet) throws SQLException {
-        Menu menu = new Menu();
-        menu.setMenuId(resultSet.getLong("menuid"));
-        menu.setNombre(resultSet.getString("nombre"));
-        menu.setPrecio(resultSet.getDouble("precio"));
-        menu.setImagen(resultSet.getString("imagen"));
-        menu.setDisponible(resultSet.getBoolean("disponible"));
-        return menu;
     }
 }

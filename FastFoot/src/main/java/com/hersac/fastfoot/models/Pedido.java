@@ -14,9 +14,9 @@ public class Pedido {
     @RelacionEntidad(nombreTabla = "Clientes", nombreCampoClave = "clienteId")
     private Clientes cliente;
     
-    @RelacionEntidad(nombreTabla = "Menu", nombreCampoClave = "menuId")
-    private Menu menu;
-    
-    private Integer cantidad;
+    private Integer cantidadMenu1;
+    private Integer cantidadMenu2;
+    private Integer cantidadMenu3;
+    private Integer cantidadMenu4;
     private Boolean estado;
 }

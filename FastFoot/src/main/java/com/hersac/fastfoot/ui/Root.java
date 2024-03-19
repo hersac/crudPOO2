@@ -1,11 +1,25 @@
 package com.hersac.fastfoot.ui;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import com.hersac.fastfoot.models.Clientes;
+import com.hersac.fastfoot.models.Menu;
+import com.hersac.fastfoot.models.Pedido;
 import com.hersac.fastfoot.services.ClientesService;
+import com.hersac.fastfoot.services.MenuService;
+import com.hersac.fastfoot.services.PedidoService;
 
 public class Root extends javax.swing.JFrame {
+
+    private ClientesService clienteServ = new ClientesService();
+    private PedidoService pedidoService = new PedidoService();
 
     /**
      * Creates new form Root
@@ -82,6 +96,18 @@ public class Root extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        ArrayList<String> listaMenus = new ArrayList<String>();
+        ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+        for (Menu menu : listarClientes()) {
+            listaMenus.add(menu.getNombre());
+        }
+        ;
+
+        for (Pedido pedido : listarPedidos()) {
+            listaPedidos.add(pedido);
+        }
+
         jPanel2.setBackground(new java.awt.Color(247, 226, 152));
 
         jPanel4.setBackground(new java.awt.Color(247, 226, 152));
@@ -118,17 +144,20 @@ public class Root extends javax.swing.JFrame {
         jPanel12.add(jLabel5);
 
         jLabel8.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel8.setText("jLabel8");
+        jLabel8.setText(listaMenus.get(0));
         jPanel12.add(jLabel8);
 
         jLabel14.setForeground(new java.awt.Color(140, 140, 140));
         jLabel14.setText("Cantidad: ");
         jPanel16.add(jLabel14);
+        jPanel16.setBackground(new java.awt.Color(30, 30, 30));
 
         jTextField4.setBackground(new java.awt.Color(250, 252, 238));
         jTextField4.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField4.setPreferredSize(new java.awt.Dimension(40, 20));
         jPanel16.add(jTextField4);
 
+        jPanel12.setBackground(new java.awt.Color(30, 30, 30));
         jPanel24.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -162,30 +191,30 @@ public class Root extends javax.swing.JFrame {
                                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap()));
-
+        jPanel5.setBackground(new java.awt.Color(30, 30, 30));
         jLayeredPane2.add(jPanel5);
 
         jLabel7.setForeground(new java.awt.Color(253, 30, 68));
         jLabel7.setText("Menu 2");
         jPanel13.add(jLabel7);
+        jPanel13.setBackground(new java.awt.Color(30, 30, 30));
 
         jLabel9.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel9.setText("jLabel9");
+        jLabel9.setText(listaMenus.get(1));
         jPanel13.add(jLabel9);
 
         jLabel15.setForeground(new java.awt.Color(140, 140, 140));
         jLabel15.setText("Cantidad: ");
         jPanel17.add(jLabel15);
+        jPanel17.setBackground(new java.awt.Color(30, 30, 30));
 
         jTextField5.setBackground(new java.awt.Color(250, 252, 238));
         jTextField5.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
+        jTextField5.setPreferredSize(new java.awt.Dimension(40, 20));
+
         jPanel17.add(jTextField5);
 
+        jPanel17.setBackground(new java.awt.Color(30, 30, 30));
         jPanel21.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -215,15 +244,16 @@ public class Root extends javax.swing.JFrame {
                                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap()));
-
+        jPanel6.setBackground(new java.awt.Color(30, 30, 30));
         jLayeredPane2.add(jPanel6);
 
         jLabel10.setForeground(new java.awt.Color(253, 30, 68));
         jLabel10.setText("Menu 3");
         jPanel14.add(jLabel10);
+        jPanel14.setBackground(new java.awt.Color(30, 30, 30));
 
         jLabel11.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel11.setText("jLabel11");
+        jLabel11.setText(listaMenus.get(2));
         jPanel14.add(jLabel11);
 
         jLabel16.setForeground(new java.awt.Color(140, 140, 140));
@@ -232,7 +262,9 @@ public class Root extends javax.swing.JFrame {
 
         jTextField6.setBackground(new java.awt.Color(250, 252, 238));
         jTextField6.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField6.setPreferredSize(new java.awt.Dimension(40, 20));
         jPanel18.add(jTextField6);
+        jPanel18.setBackground(new java.awt.Color(30, 30, 30));
 
         jPanel22.setBackground(new java.awt.Color(250, 252, 238));
 
@@ -271,15 +303,16 @@ public class Root extends javax.swing.JFrame {
                                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap()));
-
+        jPanel7.setBackground(new java.awt.Color(30, 30, 30));
         jLayeredPane2.add(jPanel7);
 
         jLabel12.setForeground(new java.awt.Color(253, 30, 68));
         jLabel12.setText("Menu 4");
         jPanel15.add(jLabel12);
+        jPanel15.setBackground(new java.awt.Color(30, 30, 30));
 
         jLabel13.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel13.setText("jLabel13");
+        jLabel13.setText(listaMenus.get(3));
         jPanel15.add(jLabel13);
 
         jLabel17.setForeground(new java.awt.Color(140, 140, 140));
@@ -288,7 +321,9 @@ public class Root extends javax.swing.JFrame {
 
         jTextField7.setBackground(new java.awt.Color(250, 252, 238));
         jTextField7.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField7.setPreferredSize(new java.awt.Dimension(40, 20));
         jPanel19.add(jTextField7);
+        jPanel19.setBackground(new java.awt.Color(30, 30, 30));
 
         jPanel23.setBackground(new java.awt.Color(250, 252, 238));
 
@@ -327,7 +362,7 @@ public class Root extends javax.swing.JFrame {
                                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap()));
-
+        jPanel8.setBackground(new java.awt.Color(30, 30, 30));
         jLayeredPane2.add(jPanel8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -344,7 +379,6 @@ public class Root extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLayeredPane2)
                                 .addContainerGap()));
-
         jLayeredPane1.add(jPanel1);
 
         jPanel3.setBackground(new java.awt.Color(250, 252, 238));
@@ -431,27 +465,58 @@ public class Root extends javax.swing.JFrame {
         jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jButton5.setBackground(new java.awt.Color(253, 30, 68));
+        jButton5.setForeground(new java.awt.Color(250, 252, 238));
         jButton5.setText("AGREGAR");
         jPanel10.add(jButton5);
 
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Clientes cliente = new Clientes();
-                cliente.setNombre(jTextField2.getText());
-                cliente.setNumeroDocumento(jTextField3.getText());
+                Pedido pedido = new Pedido();
 
-                System.out.println(cliente.toString());
                 try {
-                    ClientesService clienteServ = new ClientesService();
-                    clienteServ.addCliente(cliente);
-                    System.out.println("Cliente guardado");
-                } catch (SQLException e) {
-                    System.out.println("Error al agregar");
+                    cliente.setNombre(jTextField2.getText());
+                    cliente.setNumeroDocumento(jTextField3.getText());
+                    if (!cliente.getNombre().isEmpty() || !cliente.getNumeroDocumento().isEmpty()) {
+                        clienteServ.addCliente(cliente);
+                        System.out.println("Cliente guardado");
+                    } else {
+                        System.out.println("Debe digitar un nombre y una identificacion para el cliente");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error al agregar Cliente");
+                }
+
+                try {
+
+                    Clientes clienteGuardado = clienteServ.findClientesByIdentificacion(jTextField3.getText());
+
+                    pedido.setCliente(clienteGuardado);
+                    pedido.setCantidadMenu1(Integer.parseInt(jTextField4.getText()));
+                    pedido.setCantidadMenu2(Integer.parseInt(jTextField5.getText()));
+                    pedido.setCantidadMenu3(Integer.parseInt(jTextField6.getText()));
+                    pedido.setCantidadMenu4(Integer.parseInt(jTextField7.getText()));
+                    pedido.setEstado(true);
+
+                    if (!cliente.getNombre().isEmpty() || !cliente.getNumeroDocumento().isEmpty()) {
+                        pedidoService.addPedido(pedido);
+                        System.out.println("Pedido guardado");
+                    }
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+                    jTextField5.setText("");
+                    jTextField6.setText("");
+                    jTextField7.setText("");
+                } catch (Exception e) {
+                    System.out.println("Error al agregar pedido");
                 }
             }
         });
 
         jButton6.setBackground(new java.awt.Color(253, 30, 68));
+        jButton6.setForeground(new java.awt.Color(250, 252, 238));
         jButton6.setText("ELIMINAR");
         jPanel10.add(jButton6);
 
@@ -462,6 +527,7 @@ public class Root extends javax.swing.JFrame {
         });
 
         jButton7.setBackground(new java.awt.Color(253, 30, 68));
+        jButton7.setForeground(new java.awt.Color(250, 252, 238));
         jButton7.setText("ACTUALIZAR");
         jPanel10.add(jButton7);
 
@@ -472,6 +538,7 @@ public class Root extends javax.swing.JFrame {
         });
 
         jButton8.setBackground(new java.awt.Color(253, 30, 68));
+        jButton8.setForeground(new java.awt.Color(250, 252, 238));
         jButton8.setText("LIMPIAR");
         jPanel10.add(jButton8);
 
@@ -488,15 +555,11 @@ public class Root extends javax.swing.JFrame {
         jTable1.setBackground(new java.awt.Color(250, 252, 238));
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null }
-                },
+                listarPedidosTabla(),
                 new String[] {
                         "ID", "NOMBRE", "NRO. DOCUMENTO", "MENU 1", "MENU 2", "MENU 3", "MENU 4", "TOTAL"
                 }));
+
         jTable1.setSelectionBackground(new java.awt.Color(250, 252, 238));
         jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(jTable1);
@@ -583,6 +646,57 @@ public class Root extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    // LOGICA
+    public List<Menu> listarClientes() {
+        try {
+            MenuService menuService = new MenuService();
+            return menuService.getMenus();
+        } catch (Exception e) {
+            System.out.println("Error al listar clientes");
+            return null;
+        }
+    }
+
+    public List<Pedido> listarPedidos() {
+        try {
+            PedidoService pedidoService = new PedidoService();
+            return pedidoService.getPedidos();
+        } catch (Exception e) {
+            System.out.println("Error al listar pedidos");
+            return null;
+        }
+    }
+
+    public Object[][] listarPedidosTabla() {
+        try {
+
+            List<Pedido> pedidos = listarPedidos();
+
+            System.out.println(pedidos);
+
+            Object[][] data = new Object[pedidos.size()][8];
+            int i = 0;
+            /*
+            for (Pedido pedido : pedidos) {
+                data[i][0] = pedido.getId();
+                data[i][1] = pedido.getCliente().getNombre();
+                data[i][2] = pedido.getCliente().getNumeroDocumento();
+                data[i][3] = pedido.getCantidadMenu1();
+                data[i][4] = pedido.getCantidadMenu2();
+                data[i][5] = pedido.getCantidadMenu3();
+                data[i][6] = pedido.getCantidadMenu4();
+                data[i][7] = pedido.getTotal();
+                i++;
+            }
+            System.out.println(data);
+            */
+            return data;
+        } catch (Exception e) {
+            System.out.println("Error al listar pedidos");
+            return null;
+        }
+    }
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:

@@ -15,28 +15,28 @@ public abstract class Repositorio<T, DATO> {
     private Conexion conn;
     private String nombreTabla;
     private Statement statement;
-    
-    public Repositorio(){
+
+    public Repositorio() {
         this.conn = new Conexion(); // Inicializa la conexión
         this.nombreTabla = obtenerNombreTabla();
-        
+
         try {
             this.statement = conn.createStatement();
             String query = generarQueryCreacionTabla();
             this.statement.execute(query);
-            
-        } catch (SQLException e){
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     private String obtenerNombreTabla() {
         ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
         @SuppressWarnings("unchecked")
         Class<T> tipoEntidad = (Class<T>) superClass.getActualTypeArguments()[0]; // Corregido aquí
         return tipoEntidad.getSimpleName().toLowerCase();
     }
-    
+
     private String generarQueryCreacionTabla() {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("CREATE TABLE IF NOT EXISTS ").append(nombreTabla).append(" (");
@@ -45,20 +45,22 @@ public abstract class Repositorio<T, DATO> {
         boolean esPrimerCampo = true;
         for (Field field : fields) {
             String nombreCampo = field.getName();
-            Class<?> tipoCampo = field.getType();         
+            Class<?> tipoCampo = field.getType();
             if (field.isAnnotationPresent(RelacionEntidad.class)) {
                 RelacionEntidad relacionEntidad = field.getAnnotation(RelacionEntidad.class);
                 String nombreTablaRelacionada = relacionEntidad.nombreTabla();
                 String nombreCampoClave = relacionEntidad.nombreCampoClave();
-                queryBuilder.append(nombreCampo + " BIGINT, FOREIGN KEY (" + nombreCampo + ") REFERENCES " + nombreTablaRelacionada + "(" + nombreCampoClave + "), ");
+                queryBuilder.append(nombreCampo + " BIGINT, FOREIGN KEY (" + nombreCampo + ") REFERENCES "
+                        + nombreTablaRelacionada + "(" + nombreCampoClave + "), ");
             } else {
-                queryBuilder.append(nombreCampo).append(" ").append(obtenerTipoBaseDatos(tipoCampo, esPrimerCampo)).append(", ");
+                queryBuilder.append(nombreCampo).append(" ").append(obtenerTipoBaseDatos(tipoCampo, esPrimerCampo))
+                        .append(", ");
             }
             esPrimerCampo = false;
         }
         queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
         queryBuilder.append(")");
-        
+
         return queryBuilder.toString();
     }
 
@@ -68,15 +70,17 @@ public abstract class Repositorio<T, DATO> {
     }
 
     private String obtenerTipoBaseDatos(Class<?> tipoCampo, boolean esPrimeraPropiedad) {
-        if(esPrimeraPropiedad){
-            if (tipoCampo == int.class || tipoCampo == Integer.class || tipoCampo == long.class || tipoCampo == Long.class) {
+        if (esPrimeraPropiedad) {
+            if (tipoCampo == int.class || tipoCampo == Integer.class || tipoCampo == long.class
+                    || tipoCampo == Long.class) {
                 return "SERIAL PRIMARY KEY";
             } else {
                 return "VARCHAR(255) PRIMARY KEY";
             }
         } else if (tipoCampo == double.class || tipoCampo == Double.class) {
             return "DOUBLE PRECISION";
-        } else if (tipoCampo == long.class || tipoCampo == Long.class || tipoCampo == int.class || tipoCampo == Integer.class) {
+        } else if (tipoCampo == long.class || tipoCampo == Long.class || tipoCampo == int.class
+                || tipoCampo == Integer.class) {
             return "BIGINT";
         } else if (tipoCampo == String.class) {
             return "VARCHAR(255)";
@@ -86,7 +90,7 @@ public abstract class Repositorio<T, DATO> {
 
         throw new IllegalArgumentException("Tipo de campo no compatible: " + tipoCampo);
     }
-    
+
     public List<T> findAll() {
         List<T> resultados = new ArrayList<>();
 
@@ -101,11 +105,11 @@ public abstract class Repositorio<T, DATO> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return resultados;
     }
-    
-    public T findById(DATO id){
+
+    public T findById(DATO id) {
         T resultado = null;
         Field[] nombresCampos = obtenerCamposClase();
         String campoId = nombresCampos[0].getName();
@@ -125,7 +129,7 @@ public abstract class Repositorio<T, DATO> {
         }
         return resultado;
     }
-    
+
     public T save(T entidad) {
         T resultado = null;
         try {
@@ -147,14 +151,23 @@ public abstract class Repositorio<T, DATO> {
             queryBuilder.append(") VALUES (");
             boolean primerValor = true;
             for (Field field : fields) {
-                if(primerValor){
+                if (primerValor) {
                     primerValor = false;
+                } else if (field.isAnnotationPresent(RelacionEntidad.class)) {
+                    field.setAccessible(true);
+                    Object valorCampo = field.get(entidad);
+                    Field[] camposClaseRelacionada = valorCampo.getClass().getDeclaredFields();
+                    if (camposClaseRelacionada.length > 0) {
+                        camposClaseRelacionada[0].setAccessible(true);
+                        Object valorIdentificador = camposClaseRelacionada[0].get(valorCampo);
+                        queryBuilder.append(valorIdentificador).append(", ");
+                    }
                 } else {
                     field.setAccessible(true);
                     Object valorCampo = field.get(entidad);
                     if (valorCampo instanceof String) {
-                    queryBuilder.append("'").append(valorCampo).append("', ");
-                } else {
+                        queryBuilder.append("'").append(valorCampo).append("', ");
+                    } else {
                         queryBuilder.append(valorCampo).append(", ");
                     }
                 }
@@ -173,7 +186,7 @@ public abstract class Repositorio<T, DATO> {
 
         return resultado;
     }
-    
+
     public T update(DATO id, T entidad) {
         try {
             StringBuilder queryBuilder = new StringBuilder();
@@ -221,7 +234,7 @@ public abstract class Repositorio<T, DATO> {
         return entidad;
     }
 
-    public void deleteById(DATO id){
+    public void deleteById(DATO id) {
         T resultado = null;
         Field[] nombresCampos = obtenerCamposClase();
         String campoId = nombresCampos[0].getName();
@@ -239,12 +252,12 @@ public abstract class Repositorio<T, DATO> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Se elimino correctamente"); 
+        System.out.println("Se elimino correctamente");
     }
-    
+
     public T findByField(String nombreCampo, Object valor) {
         T resultado = null;
-        
+
         try {
             String query = "SELECT * FROM " + this.nombreTabla + " WHERE " + nombreCampo + " = ?";
             try (PreparedStatement statement = conn.prepareStatement(query)) {
@@ -258,14 +271,14 @@ public abstract class Repositorio<T, DATO> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return resultado;
     }
-    
+
     // Método dinámico para buscar por un campo específico
     public T findBy(String nombreCampo, Object valor) {
         return findByField(nombreCampo, valor);
     }
-    
+
     protected abstract T mapearResultSetAEntidad(ResultSet resultSet) throws SQLException;
 }
