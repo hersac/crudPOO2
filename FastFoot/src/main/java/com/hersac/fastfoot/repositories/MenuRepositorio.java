@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MenuRepositorio extends Repositorio<Menu, Long> {
+    public MenuRepositorio(Class<Menu> claseEntidad) {
+        super(claseEntidad);
+    }
+
     @Override
     public Menu mapearResultSetAEntidad(ResultSet resultSet) throws SQLException {
         Menu menu = new Menu();

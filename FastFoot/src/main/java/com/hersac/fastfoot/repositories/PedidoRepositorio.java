@@ -8,13 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PedidoRepositorio extends Repositorio<Pedido, Long> {
+    public PedidoRepositorio(Class<Pedido> claseEntidad) {
+        super(claseEntidad);
+    }
+
     @Override
     public Pedido mapearResultSetAEntidad(ResultSet resultSet) throws SQLException {
         Pedido pedido = new Pedido();
         pedido.setPedidoId(resultSet.getLong("pedidoid"));
 
         Clientes cliente = cargarClienteDesdeResultSet(resultSet);
-        pedido.setCliente(cliente);
+        pedido.setClientesId(cliente);
         
         pedido.setCantidadMenu1(resultSet.getInt("cantidadmenu1"));
         pedido.setCantidadMenu2(resultSet.getInt("cantidadmenu2"));
@@ -26,7 +30,7 @@ public class PedidoRepositorio extends Repositorio<Pedido, Long> {
     
     private Clientes cargarClienteDesdeResultSet(ResultSet resultSet) throws SQLException {
         Clientes cliente = new Clientes();
-        cliente.setClienteId(resultSet.getLong("clienteid"));
+        cliente.setClientesId(resultSet.getLong("clientesid"));
         cliente.setNombre(resultSet.getString("nombre"));
         cliente.setNumeroDocumento(resultSet.getString("numerodocumento"));
         return cliente;

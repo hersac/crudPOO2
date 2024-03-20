@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ClientesService {
 
-    private ClientesRepositorio clientesRepo = new ClientesRepositorio();;
+    private ClientesRepositorio clientesRepo = new ClientesRepositorio(Clientes.class);
 
     public List<Clientes> getClientes() {
         return this.clientesRepo.findAll();

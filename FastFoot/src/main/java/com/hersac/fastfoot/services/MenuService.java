@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MenuService {
     
-    private MenuRepositorio menuRepo = new MenuRepositorio();
+    private MenuRepositorio menuRepo = new MenuRepositorio(Menu.class);
     
     public List<Menu> getMenus(){
         return menuRepo.findAll();

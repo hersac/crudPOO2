@@ -15,10 +15,13 @@ public abstract class Repositorio<T, DATO> {
     private Conexion conn;
     private String nombreTabla;
     private Statement statement;
+    private Class<T> claseEntidad;
 
-    public Repositorio() {
+    public Repositorio(Class<T> claseEntidad) {
         this.conn = new Conexion(); // Inicializa la conexión
         this.nombreTabla = obtenerNombreTabla();
+
+        this.claseEntidad = claseEntidad;
 
         try {
             this.statement = conn.createStatement();
@@ -279,6 +282,95 @@ public abstract class Repositorio<T, DATO> {
     public T findBy(String nombreCampo, Object valor) {
         return findByField(nombreCampo, valor);
     }
+
+    public List<T> findAllWithJoins() {
+        List<T> resultados = new ArrayList<>();
+
+        try {
+            List<String> tablasRelacionadas = obtenerTablasRelacionadas();
+            List<Class<?>> clasesRelacionadas = obtenerClasesRelacionadas();
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("SELECT ");
+
+            // Obtener campos de la clase T utilizando la clase de la entidad
+            Field[] campos = claseEntidad.getDeclaredFields();
+            for (Field campo : campos) {
+                queryBuilder.append(this.nombreTabla.charAt(0) + "." + campo.getName()).append(", ");
+            }
+
+            //Obtener campos de las clases relacionadas a T
+            if (!clasesRelacionadas.isEmpty()) {
+                for (Class<?> claseEntidadRel : clasesRelacionadas) {
+                    Field[] camposRel = claseEntidadRel.getDeclaredFields();
+                    for(Field campoRel : camposRel){
+                        queryBuilder.append(claseEntidadRel.getName().charAt(0) + "." + campoRel.getName()).append(", ");
+                    }
+                }
+            }
+
+            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length()); // Eliminar la coma final
+            queryBuilder.append(" FROM ").append(this.nombreTabla + " " + this.nombreTabla.charAt(0));
+
+            // Verificar las relaciones de las entidades
+            
+            if (!tablasRelacionadas.isEmpty()) {
+                for (String tabla : tablasRelacionadas) {
+                    queryBuilder.append(" INNER JOIN ").append(tabla + " " + tabla.charAt(0))
+                            .append(" ON ").append(this.nombreTabla.charAt(0))
+                            .append(".").append(tabla.toLowerCase()).append("id")
+                            .append(" = ").append(tabla.charAt(0) + "." + tabla).append("id");
+                }
+            }
+
+            String query = queryBuilder.toString();
+
+            try (ResultSet resultSet = statement.executeQuery(query)) {
+                while (resultSet.next()) {
+                    T entidad = mapearResultSetAEntidad(resultSet);
+                    resultados.add(entidad);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultados;
+    }
+
+    // Método para obtener las tablas relacionadas utilizando reflexión
+    private List<String> obtenerTablasRelacionadas() {
+        List<String> tablasRelacionadas = new ArrayList<>();
+        Field[] campos = claseEntidad.getDeclaredFields();
+
+        for (Field campo : campos) {
+            if (campo.isAnnotationPresent(RelacionEntidad.class)) {
+                RelacionEntidad relacionEntidad = campo.getAnnotation(RelacionEntidad.class);
+                tablasRelacionadas.add(relacionEntidad.nombreTabla());
+            }
+        }
+
+        return tablasRelacionadas;
+    }
+
+    public List<Class<?>> obtenerClasesRelacionadas() {
+    List<Class<?>> clasesRelacionadas = new ArrayList<>();
+    Field[] campos = claseEntidad.getDeclaredFields();
+
+    for (Field campo : campos) {
+        if (campo.isAnnotationPresent(RelacionEntidad.class)) {
+            RelacionEntidad relacionEntidad = campo.getAnnotation(RelacionEntidad.class);
+            String nombreClase = relacionEntidad.nombreClase();
+            try {
+                Class<?> claseRelacionada = Class.forName(nombreClase);
+                clasesRelacionadas.add(claseRelacionada);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    return clasesRelacionadas;
+}
 
     protected abstract T mapearResultSetAEntidad(ResultSet resultSet) throws SQLException;
 }

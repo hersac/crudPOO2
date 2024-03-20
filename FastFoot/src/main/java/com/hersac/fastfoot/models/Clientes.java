@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Clientes {
-    private Long clienteId;
+    private Long clientesId;
     private String nombre;
     private String numeroDocumento;
 }

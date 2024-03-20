@@ -5,10 +5,10 @@ import com.hersac.fastfoot.repositories.PedidoRepositorio;
 import java.util.List;
 
 public class PedidoService {
-    private PedidoRepositorio pedidoRepo = new PedidoRepositorio();
+    private PedidoRepositorio pedidoRepo = new PedidoRepositorio(Pedido.class);
     
     public List<Pedido> getPedidos(){
-        return pedidoRepo.findAll();
+        return pedidoRepo.findAllWithJoins();
     }
     
     public Pedido getPedidoById(Long id){

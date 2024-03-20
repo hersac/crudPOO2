@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class Pedido {
     private Long pedidoId;
     
-    @RelacionEntidad(nombreTabla = "Clientes", nombreCampoClave = "clienteId")
-    private Clientes cliente;
+    @RelacionEntidad(nombreTabla = "Clientes", nombreCampoClave = "clientesId", nombreClase = "com.hersac.fastfoot.models.Clientes")
+    private Clientes clientesId;
     
     private Integer cantidadMenu1;
     private Integer cantidadMenu2;

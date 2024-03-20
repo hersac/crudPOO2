@@ -9,10 +9,14 @@ import java.util.List;
 
 public class ClientesRepositorio extends Repositorio<Clientes, Long> {
     
+    public ClientesRepositorio(Class<Clientes> claseEntidad) {
+        super(claseEntidad);
+    }
+
     @Override
     public Clientes mapearResultSetAEntidad(ResultSet resultSet) throws SQLException {
         Clientes cliente = new Clientes();
-        cliente.setClienteId(resultSet.getLong("clienteid"));
+        cliente.setClientesId(resultSet.getLong("clientesid"));
         cliente.setNombre(resultSet.getString("nombre"));
         cliente.setNumeroDocumento(resultSet.getString("numerodocumento"));
 

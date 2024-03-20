@@ -35,3 +35,8 @@ nb-configuration.xml
 
 # Ignora los archivos de dependencias de Maven
 target/
+
+.classpath
+.factorypath
+.project
+.settings
