@@ -19,8 +19,8 @@ public class PedidoService {
         return pedidoRepo.save(pedido);
     }
     
-    public Pedido updatePedido(Long id, Pedido pedido) {
-        return pedidoRepo.update(id, pedido);
+    public void updatePedido(Long id, Pedido pedido) {
+        pedidoRepo.update(id, pedido);
     }
     
     public void deletePedido(Long id){

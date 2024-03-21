@@ -190,7 +190,7 @@ public abstract class Repositorio<T, DATO> {
         return resultado;
     }
 
-    public T update(DATO id, T entidad) {
+    public void update(DATO id, T entidad) {
         try {
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("UPDATE ").append(this.nombreTabla).append(" SET ");
@@ -233,8 +233,6 @@ public abstract class Repositorio<T, DATO> {
         } catch (IllegalAccessException | SQLException e) {
             e.printStackTrace();
         }
-
-        return entidad;
     }
 
     public void deleteById(DATO id) {
@@ -285,19 +283,16 @@ public abstract class Repositorio<T, DATO> {
 
     public List<T> findAllWithJoins() {
         List<T> resultados = new ArrayList<>();
-
         try {
             List<String> tablasRelacionadas = obtenerTablasRelacionadas();
             List<Class<?>> clasesRelacionadas = obtenerClasesRelacionadas();
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT ");
-
             // Obtener campos de la clase T utilizando la clase de la entidad
             Field[] campos = claseEntidad.getDeclaredFields();
             for (Field campo : campos) {
                 queryBuilder.append(this.nombreTabla.charAt(0) + "." + campo.getName()).append(", ");
             }
-
             //Obtener campos de las clases relacionadas a T
             if (!clasesRelacionadas.isEmpty()) {
                 for (Class<?> claseEntidadRel : clasesRelacionadas) {
@@ -307,12 +302,9 @@ public abstract class Repositorio<T, DATO> {
                     }
                 }
             }
-
             queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length()); // Eliminar la coma final
             queryBuilder.append(" FROM ").append(this.nombreTabla + " " + this.nombreTabla.charAt(0));
-
             // Verificar las relaciones de las entidades
-            
             if (!tablasRelacionadas.isEmpty()) {
                 for (String tabla : tablasRelacionadas) {
                     queryBuilder.append(" INNER JOIN ").append(tabla + " " + tabla.charAt(0))
@@ -321,9 +313,7 @@ public abstract class Repositorio<T, DATO> {
                             .append(" = ").append(tabla.charAt(0) + "." + tabla).append("id");
                 }
             }
-
             String query = queryBuilder.toString();
-
             try (ResultSet resultSet = statement.executeQuery(query)) {
                 while (resultSet.next()) {
                     T entidad = mapearResultSetAEntidad(resultSet);
@@ -333,7 +323,6 @@ public abstract class Repositorio<T, DATO> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return resultados;
     }
 
@@ -348,7 +337,6 @@ public abstract class Repositorio<T, DATO> {
                 tablasRelacionadas.add(relacionEntidad.nombreTabla());
             }
         }
-
         return tablasRelacionadas;
     }
 

@@ -9,23 +9,23 @@ public class ClientesService {
     private ClientesRepositorio clientesRepo = new ClientesRepositorio(Clientes.class);
 
     public List<Clientes> getClientes() {
-        return this.clientesRepo.findAll();
+        return clientesRepo.findAll();
     }
 
     public Clientes getClienteById(Long id) {
-        return this.clientesRepo.findById(id);
+        return clientesRepo.findById(id);
     }
 
     public Clientes addCliente(Clientes cliente) {
-        return this.clientesRepo.save(cliente);
+        return clientesRepo.save(cliente);
     }
 
-    public Clientes updateCliente(Long id, Clientes cliente) {
-        return this.clientesRepo.update(id, cliente);
+    public void updateCliente(Long id, Clientes cliente) {
+        clientesRepo.update(id, cliente);
     }
 
     public void deleteClienteById(Long id) {
-        this.clientesRepo.deleteById(id);
+        clientesRepo.deleteById(id);
     }
 
     public Clientes findClientesByIdentificacion(String identificacion) {

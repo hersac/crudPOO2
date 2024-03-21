@@ -101,6 +101,11 @@ public class Root extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        ModalEditarPedido modalEditar = new ModalEditarPedido();
+        ModalEliminarPedido modalEliminar = new ModalEliminarPedido();
+        modalEditar.setVisible(false);
+        modalEliminar.setVisible(false);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(247, 226, 152));
@@ -154,7 +159,8 @@ public class Root extends javax.swing.JFrame {
         jPanel24.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu1.jpg"))); // NOI18N
+        // jLabel18.setIcon(new
+        // javax.swing.ImageIcon(getClass().getResource("/menu1.jpg"))); // NOI18N
         jLabel18.setPreferredSize(new java.awt.Dimension(50, 50));
         jLabel18.setText("");
         jPanel24.add(jLabel18);
@@ -214,7 +220,8 @@ public class Root extends javax.swing.JFrame {
         jPanel21.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu2.jpg"))); // NOI18N
+        // jLabel19.setIcon(new
+        // javax.swing.ImageIcon(getClass().getResource("/menu2.jpg"))); // NOI18N
         jLabel19.setPreferredSize(new java.awt.Dimension(50, 50));
         jLabel19.setText("");
         jPanel21.add(jLabel19);
@@ -268,7 +275,8 @@ public class Root extends javax.swing.JFrame {
 
         jPanel22.setBackground(new java.awt.Color(250, 252, 238));
 
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu3.jpg"))); // NOI18N
+        // jLabel20.setIcon(new
+        // javax.swing.ImageIcon(getClass().getResource("/menu3.jpg"))); // NOI18N
         jLabel20.setPreferredSize(new java.awt.Dimension(50, 50));
         jLabel20.setText("");
         jLabel20.setPreferredSize(new java.awt.Dimension(310, 256));
@@ -330,7 +338,8 @@ public class Root extends javax.swing.JFrame {
 
         jPanel23.setBackground(new java.awt.Color(250, 252, 238));
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu4.jpg"))); // NOI18N
+        // jLabel21.setIcon(new
+        // javax.swing.ImageIcon(getClass().getResource("/menu4.jpg"))); // NOI18N
         jLabel21.setPreferredSize(new java.awt.Dimension(50, 50));
         jLabel21.setText("");
         jLabel21.setMaximumSize(new java.awt.Dimension(310, 256));
@@ -482,6 +491,7 @@ public class Root extends javax.swing.JFrame {
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarPedido();
+                jTable1.setModel(obtenerTabla());
             }
         });
 
@@ -492,10 +502,22 @@ public class Root extends javax.swing.JFrame {
         jButton6.setText("ELIMINAR");
         jPanel10.add(jButton6);
 
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent ent) {
+                modalEliminar.setVisible(true);
+            }
+        });
+
         jButton7.setBackground(new java.awt.Color(253, 30, 68));
         jButton7.setForeground(new java.awt.Color(250, 252, 238));
         jButton7.setText("ACTUALIZAR");
         jPanel10.add(jButton7);
+
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent ent) {
+                modalEditar.setVisible(true);
+            }
+        });
 
         jButton8.setBackground(new java.awt.Color(253, 30, 68));
         jButton8.setForeground(new java.awt.Color(250, 252, 238));
@@ -504,6 +526,8 @@ public class Root extends javax.swing.JFrame {
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarCampos();
+                jTable1.setModel(obtenerTabla());
+
             }
         });
 
@@ -713,10 +737,12 @@ public class Root extends javax.swing.JFrame {
 
             if (clienteExistente != null) {
                 System.out.println("El cliente ya existe");
+                return;
             }
 
             if (nuevoCliente.getNombre().isEmpty() || nuevoCliente.getNumeroDocumento().isEmpty()) {
                 System.out.println("Debe digitar un nombre y una identificacion para el cliente");
+                return;
             }
 
             clienteServ.addCliente(nuevoCliente);
@@ -733,9 +759,9 @@ public class Root extends javax.swing.JFrame {
             int cantidad4 = jTextField7.getText().isEmpty() ? 0 : Integer.parseInt(jTextField7.getText());
             nuevoPedido.setClientesId(clienteGuardado);
             nuevoPedido.setCantidadMenu1(cantidad1);
-            nuevoPedido.setCantidadMenu2(cantidad1);
-            nuevoPedido.setCantidadMenu3(cantidad1);
-            nuevoPedido.setCantidadMenu4(cantidad1);
+            nuevoPedido.setCantidadMenu2(cantidad2);
+            nuevoPedido.setCantidadMenu3(cantidad3);
+            nuevoPedido.setCantidadMenu4(cantidad4);
             nuevoPedido.setEstado(true);
             pedidoService.addPedido(nuevoPedido);
             limpiarCampos();
@@ -743,16 +769,6 @@ public class Root extends javax.swing.JFrame {
             System.out.println("Error al agregar pedido");
         }
 
-    }
-
-    public void actualizarPedido() {
-        ModalEditarPedido modalEditar = new ModalEditarPedido();
-        modalEditar.setVisible(true);
-    }
-
-    public void eliminarPedido() {
-        ModalEliminarPedido modalEliminar = new ModalEliminarPedido();
-        modalEliminar.setVisible(true);
     }
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField5ActionPerformed

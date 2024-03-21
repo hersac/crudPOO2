@@ -20,8 +20,8 @@ public class MenuService {
         return menuRepo.save(nuevoMenu);
     }
     
-    public Menu updateMenu(Long id, Menu menu){
-        return menuRepo.update(id, menu);
+    public void updateMenu(Long id, Menu menu){
+        menuRepo.update(id, menu);
     }
     
     public void deleteMenu(Long id){
