@@ -18,9 +18,6 @@ public class Conexion {
             String usuario = "heri";
             String contraseña = "Heriberto1995**";
             conexion = DriverManager.getConnection(url, usuario, contraseña);
-            
-            System.out.println("Conexion realizada");
-            
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

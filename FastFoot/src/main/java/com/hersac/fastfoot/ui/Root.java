@@ -136,6 +136,7 @@ public class Root extends javax.swing.JFrame {
         jLayeredPane1.setLayout(new java.awt.GridLayout(1, 2, 18, 0));
 
         jPanel1.setBackground(new java.awt.Color(250, 252, 238));
+        jPanel1.add(jScrollPane1);
 
         jLayeredPane2.setLayout(new java.awt.GridLayout(2, 2, 18, 18));
 
@@ -159,9 +160,8 @@ public class Root extends javax.swing.JFrame {
         jPanel24.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        // jLabel18.setIcon(new
-        // javax.swing.ImageIcon(getClass().getResource("/menu1.jpg"))); // NOI18N
-        jLabel18.setPreferredSize(new java.awt.Dimension(50, 50));
+        //jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu1.jpg"))); // NOI18N
+        jLabel18.setPreferredSize(new java.awt.Dimension(150, 150));
         jLabel18.setText("");
         jPanel24.add(jLabel18);
 
@@ -220,9 +220,8 @@ public class Root extends javax.swing.JFrame {
         jPanel21.setBackground(new java.awt.Color(250, 252, 238));
         // jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        // jLabel19.setIcon(new
-        // javax.swing.ImageIcon(getClass().getResource("/menu2.jpg"))); // NOI18N
-        jLabel19.setPreferredSize(new java.awt.Dimension(50, 50));
+        //jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu2.jpg"))); // NOI18N
+        jLabel19.setPreferredSize(new java.awt.Dimension(150, 150));
         jLabel19.setText("");
         jPanel21.add(jLabel19);
 
@@ -261,7 +260,7 @@ public class Root extends javax.swing.JFrame {
         jPanel14.add(jLabel10);
 
         jLabel11.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel11.setText(formatearComoMoneda(menus.get(0).getPrecio()));
+        jLabel11.setText(formatearComoMoneda(menus.get(2).getPrecio()));
         jPanel14.add(jLabel11);
 
         jLabel16.setForeground(new java.awt.Color(140, 140, 140));
@@ -275,11 +274,9 @@ public class Root extends javax.swing.JFrame {
 
         jPanel22.setBackground(new java.awt.Color(250, 252, 238));
 
-        // jLabel20.setIcon(new
-        // javax.swing.ImageIcon(getClass().getResource("/menu3.jpg"))); // NOI18N
-        jLabel20.setPreferredSize(new java.awt.Dimension(50, 50));
+        //jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu3.jpg"))); // NOI18N
+        jLabel20.setPreferredSize(new java.awt.Dimension(150, 150));
         jLabel20.setText("");
-        jLabel20.setPreferredSize(new java.awt.Dimension(310, 256));
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -324,7 +321,7 @@ public class Root extends javax.swing.JFrame {
         jPanel15.add(jLabel12);
 
         jLabel13.setForeground(new java.awt.Color(253, 30, 68));
-        jLabel13.setText(formatearComoMoneda(menus.get(0).getPrecio()));
+        jLabel13.setText(formatearComoMoneda(menus.get(3).getPrecio()));
         jPanel15.add(jLabel13);
 
         jLabel17.setForeground(new java.awt.Color(140, 140, 140));
@@ -338,13 +335,9 @@ public class Root extends javax.swing.JFrame {
 
         jPanel23.setBackground(new java.awt.Color(250, 252, 238));
 
-        // jLabel21.setIcon(new
-        // javax.swing.ImageIcon(getClass().getResource("/menu4.jpg"))); // NOI18N
-        jLabel21.setPreferredSize(new java.awt.Dimension(50, 50));
+        //jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu4.jpg"))); // NOI18N
+        jLabel21.setPreferredSize(new java.awt.Dimension(150, 150));
         jLabel21.setText("");
-        jLabel21.setMaximumSize(new java.awt.Dimension(310, 256));
-        jLabel21.setName(""); // NOI18N
-        jLabel21.setPreferredSize(new java.awt.Dimension(310, 256));
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -527,7 +520,6 @@ public class Root extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarCampos();
                 jTable1.setModel(obtenerTabla());
-
             }
         });
 
